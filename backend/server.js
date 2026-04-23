@@ -9,9 +9,9 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? true  // nginx proxies from same origin, so all requests are same-origin
-  : 'http://localhost:5173';
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+  ? [process.env.FRONTEND_URL, true] // We'll allow the frontend URL in production
+  : ['http://localhost:5173', true];
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
